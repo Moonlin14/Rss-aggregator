@@ -8,10 +8,8 @@ lint:
 	npx eslint .
 
 build:
-	NODE_ENV=production npx webpack
-
-buildrm:
 	rm -rf dist
+	NODE_ENV=production npx webpack
 
 lint-fix:
 	npx eslint --fix .

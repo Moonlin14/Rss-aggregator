@@ -1,20 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV == 'production';
 
 const config = {
   entry: './src/index.js',
   output: {
-    filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
     open: true,
     host: 'localhost',
-    static: path.resolve(__dirname, 'dist'),
-    port: 8080,
-    hot: true,
   },
   plugins: [
     new HtmlWebpackPlugin({

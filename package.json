@@ -1,13 +1,13 @@
 {
-  "name": "@hexlet/code.",
+  "name": "@hexlet/code",
+  "type": "module",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/Moonlin14/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Moonlin14/frontend-project-11/actions)",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Danil",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -17,6 +17,7 @@
     "css-loader": "^7.1.2",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.30.0",
     "html-webpack-plugin": "^5.6.0",
     "postcss-loader": "^8.1.1",
