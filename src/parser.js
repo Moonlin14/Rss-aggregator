@@ -9,9 +9,9 @@ err.name = 'parsingError';
 throw err;
 } else {
   const channel = xmlDocument.querySelector('channel');
-  const channelTitle = channel.querySelector('title').textContent;
-  const channelDescription = channel.querySelector('description').textContent;
-  const feed = { channelTitle, channelDescription };
+  const feedTitle = channel.querySelector('title').textContent;
+  const feedDescription = channel.querySelector('description').textContent;
+  const feed = { title: feedTitle, description: feedDescription };
 
   const items = channel.querySelectorAll('item');
   const posts = [...items].map((item) => {

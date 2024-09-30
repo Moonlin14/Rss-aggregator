@@ -3,8 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-const stylesHandler = 'style-loader';
-
 const config = {
   entry: './src/index.js',
   output: {
@@ -24,7 +22,7 @@ const config = {
     rules: [
       {
         test: /\.css$/i,
-        use: [stylesHandler, 'css-loader'],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(scss)$/,
