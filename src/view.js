@@ -18,10 +18,10 @@ if (state.processError !== null) {
   feedback.classList.add('text-danger');
   input.classList.add('is-invalid');
   switch (state.process.processError) {
-    case 'parsingError':
+    case 'Parsing Error':
       feedback.textContent = i18n.t('erorrs.parserError');
       break;
-    case 'networkErorr':
+    case 'Network Erorr':
       feedback.textContent = i18n.t('networkError');
       break;
     default:
