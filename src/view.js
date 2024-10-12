@@ -1,58 +1,58 @@
 import onChange from 'on-change';
 
 const successLoad = (elements, i18n) => {
-const { input, feedback, form } = elements;
-feedback.classList.add('text-success');
-feedback.classList.remove('text-danger');
-input.classList.remove('is-invalid');
-const feedbackText = i18n.t('success');
-feedback.textContent = feedbackText;
-form.reset();
-input.focus();
+  const { input, feedback, form } = elements;
+  feedback.classList.add('text-success');
+  feedback.classList.remove('text-danger');
+  input.classList.remove('is-invalid');
+  const feedbackText = i18n.t('success');
+  feedback.textContent = feedbackText;
+  form.reset();
+  input.focus();
 };
 
 const errorLoad = (elements, i18n, state) => {
-const { input, feedback } = elements;
-if (state.process.processError !== null) {
-  feedback.classList.remove('text-success');
-  feedback.classList.add('text-danger');
-  input.classList.add('is-invalid');
-  if (state.process.processError === 'Parsing Error') {
-    feedback.textContent = i18n.t('erorrs.parserError');
-  } else if (state.process.processError === 'Network Erorr') {
-    feedback.textContent = i18n.t('networkError');
+  const { input, feedback } = elements;
+  if (state.process.processError !== null) {
+    feedback.classList.remove('text-success');
+    feedback.classList.add('text-danger');
+    input.classList.add('is-invalid');
+    if (state.process.processError === 'Parsing Error') {
+      feedback.textContent = i18n.t('erorrs.parserError');
+    } else if (state.process.processError === 'Network Erorr') {
+      feedback.textContent = i18n.t('networkError');
+    } else {
+      const anotherError = state.process.processError;
+      feedback.textContent = i18n.t(anotherError.key);
+    }
   } else {
-    const anotherError = state.process.processError;
-    feedback.textContent = i18n.t(anotherError.key);
+    feedback.classList.remove('text-danger');
+    input.classList.remove('is-invalid');
   }
-} else {
-feedback.classList.remove('text-danger');
-input.classList.remove('is-invalid');
-}
 };
 
 const formProcessState = (elements, i18n, value, state) => {
-const { input, button } = elements;
-switch (value) {
-  case 'filling':
-    break;
-  case 'request':
-    input.disabled = true;
-    button.disabled = true;
-    break;
-  case 'error':
-    errorLoad(elements, i18n, state);
-    input.disabled =false;
-    button.disabled = false;
-    break;
-  case 'loaded':
-    successLoad(elements, i18n);
-    input.disabled =false;
-    button.disabled = false;
-    break;
-  default:
-    throw new Error(`Unknown process state: ${value}`);
-};
+  const { input, button } = elements;
+  switch (value) {
+    case 'filling':
+      break;
+    case 'request':
+      input.disabled = true;
+      button.disabled = true;
+      break;
+    case 'error':
+      errorLoad(elements, i18n, state);
+      input.disabled = false;
+      button.disabled = false;
+      break;
+    case 'loaded':
+      successLoad(elements, i18n);
+      input.disabled = false;
+      button.disabled = false;
+      break;
+    default:
+      throw new Error(`Unknown process state: ${value}`);
+  }
 };
 
 const buildContainer = (title, elements, i18n, state) => {
@@ -61,7 +61,7 @@ const buildContainer = (title, elements, i18n, state) => {
     feeds.textContent = '';
   } else {
     posts.textContent = '';
-  };
+  }
 
   const card = document.createElement('div');
   card.classList.add('card', 'border-0');
@@ -90,7 +90,7 @@ const buildContainer = (title, elements, i18n, state) => {
       listGroup.append(listGroupItem);
       cardBody.append(listGroup);
     });
-  };
+  }
 
   if (title === 'posts') {
     const listGroup = document.createElement('ul');
@@ -98,7 +98,7 @@ const buildContainer = (title, elements, i18n, state) => {
     state.posts.forEach((post) => {
       const listGroupItem = document.createElement('li');
       listGroupItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
-      
+
       const a = document.createElement('a');
       a.setAttribute('href', post.link);
       if (!state.uiState.visitedLinks.has(post.id)) {
@@ -124,11 +124,13 @@ const buildContainer = (title, elements, i18n, state) => {
       listGroup.append(listGroupItem);
       cardBody.append(listGroup);
     });
-  };
+  }
 };
 
 const renderModal = (elements, state) => {
-  const { modal, modalTitle, modalBody, modalLink } = elements;
+  const {
+    modal, modalTitle, modalBody, modalLink,
+  } = elements;
   if (state.uiState.modalId !== '') {
     modal.classList.add('show');
     modal.removeAttribute('aria-hidden');
@@ -144,7 +146,7 @@ const renderModal = (elements, state) => {
     modal.removeAttribute('aria-modal');
     modal.setAttribute('aria-hidden', 'true');
     modal.style.display = 'none';
-  };
+  }
 };
 
 export default (elements, i18n, state) => {
@@ -170,7 +172,7 @@ export default (elements, i18n, state) => {
         break;
       default:
         break;
-    };
+    }
   });
   return watchedState;
 };

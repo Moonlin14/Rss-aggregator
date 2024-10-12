@@ -1,12 +1,13 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const isProduction = process.env.NODE_ENV == 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(dirname(fileURLToPath(import.meta.url)), 'dist'),
   },
   devServer: {
     open: true,
@@ -16,14 +17,24 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'index.html',
     }),
-
   ],
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        type: 'asset',
+      },
+      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
       {
         test: /\.(scss)$/,
         use: [
@@ -34,40 +45,15 @@ const config = {
             loader: 'css-loader',
           },
           {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: () => [require('autoprefixer')],
-              },
-            },
-          },
-          {
             loader: 'sass-loader',
-          },
-
-          {
-            loader: require.resolve('sass-loader'),
-            options: {
-              sassOptions: { quietDeps: true },
-            },
           },
         ],
       },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: 'asset',
-      },
-
-      {
-        test: /\.html$/i,
-        use: 'html-loader',
-      },
-
     ],
   },
 };
 
-module.exports = () => {
+export default () => {
   if (isProduction) {
     config.mode = 'production';
   } else {
