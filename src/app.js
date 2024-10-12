@@ -9,7 +9,7 @@ import view from './view';
 import resources from './locales/index.js';
 
 const validatorUrl = (url, urlList) => {
-  const schema = yup.string().url().notOneOf(urlList).required();
+  const schema = yup.string().trim().required().url().notOneOf(urlList);
   return schema.validate(url);
 };
 
@@ -52,7 +52,7 @@ const loadNewPosts = (state) => {
     posts.forEach((post) => {
       const isIncludes = state.posts.some((loadedPost) => loadedPost.title === post.title);
       if (!isIncludes) {
-        state.post.unshift({
+        state.posts.unshift({
           id: createId(),
           title: post.title,
           description: post.description,
@@ -143,7 +143,7 @@ export default () => {
     .then((parsedRss) => {
       const feedId = createId();
       const title = parsedRss.feed.channelTitle;
-      const description = parsedRss.feed.channelDesctiption;
+      const description = parsedRss.feed.channelDescription;
       addFeeds(watchedState, feedId, title, description);
       addPosts(watchedState, feedId, parsedRss.posts);
 

@@ -5,7 +5,7 @@ const { input, feedback, form } = elements;
 feedback.classList.add('text-success');
 feedback.classList.remove('text-danger');
 input.classList.remove('is-invalid');
-const feedbackText = i18n.t(success);
+const feedbackText = i18n.t('success');
 feedback.textContent = feedbackText;
 form.reset();
 input.focus();
@@ -13,20 +13,17 @@ input.focus();
 
 const errorLoad = (elements, i18n, state) => {
 const { input, feedback } = elements;
-if (state.processError !== null) {
+if (state.process.processError !== null) {
   feedback.classList.remove('text-success');
   feedback.classList.add('text-danger');
   input.classList.add('is-invalid');
-  switch (state.process.processError) {
-    case 'Parsing Error':
-      feedback.textContent = i18n.t('erorrs.parserError');
-      break;
-    case 'Network Erorr':
-      feedback.textContent = i18n.t('networkError');
-      break;
-    default:
-      const anotherError = state.process.processError;
-      feedback.textContent = i18n.t(anotherError.key);
+  if (state.process.processError === 'Parsing Error') {
+    feedback.textContent = i18n.t('erorrs.parserError');
+  } else if (state.process.processError === 'Network Erorr') {
+    feedback.textContent = i18n.t('networkError');
+  } else {
+    const anotherError = state.process.processError;
+    feedback.textContent = i18n.t(anotherError.key);
   }
 } else {
 feedback.classList.remove('text-danger');
@@ -87,7 +84,7 @@ const buildContainer = (title, elements, i18n, state) => {
       h3.textContent = feed.feedTitle;
       const p = document.createElement('p');
       p.classList.add('m-0', 'small', 'text-black-50');
-      p.textContent = feed.feedDescrition;
+      p.textContent = feed.feedDescription;
       listGroupItem.append(h3);
       listGroupItem.append(p);
       listGroup.append(listGroupItem);
@@ -175,4 +172,5 @@ export default (elements, i18n, state) => {
         break;
     };
   });
+  return watchedState;
 };
