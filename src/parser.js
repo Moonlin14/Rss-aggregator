@@ -9,9 +9,9 @@ export default (responesData) => {
     throw err;
   } else {
     const channel = xmlDocument.querySelector('channel');
-    const feedTitle = channel.querySelector('title').textContent;
-    const feedDescription = channel.querySelector('description').textContent;
-    const feed = { title: feedTitle, description: feedDescription };
+    const channelTitle = channel.querySelector('title').textContent;
+    const channelDescription = channel.querySelector('description').textContent;
+    const feed = { channelTitle, channelDescription };
 
     const items = channel.querySelectorAll('item');
     const posts = [...items].map((item) => {

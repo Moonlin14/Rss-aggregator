@@ -26,8 +26,8 @@ const createId = () => (_.uniqueId());
 const addFeeds = (state, id, title, description) => {
   state.feeds.push({
     feedId: id,
-    title,
-    description,
+    feedTitle: title,
+    feedDescription: description,
     link: state.rssFrom.inputURL,
   });
 };
@@ -35,7 +35,7 @@ const addFeeds = (state, id, title, description) => {
 const addPosts = (state, feedId, posts) => {
   posts.forEach((post) => {
     const newPost = {
-      feedId,
+      feedID: feedId,
       id: createId(),
       title: post.title,
       description: post.description,
@@ -157,7 +157,7 @@ export default () => {
         if (err.isAxiosError) {
           watchedState.process.processError = 'Network Error';
         } else if (err.name === 'parsingError') {
-          watchedState.process.processError = 'Parsing Error';
+          watchedState.process.processError = 'noRSS';
         } else {
           watchedState.process.processError = err.message;
         }
