@@ -8,8 +8,8 @@ export default {
       feedbackEmpty: 'Не должно быть пустым',
     },
     posts: 'Посты',
-    openBtn: 'Просмотр',
     feeds: 'Фиды',
+    openBtn: 'Просмотр',
     errors: {
       network: 'Ошибка сети',
     },
