@@ -110,11 +110,11 @@ export default () => {
     .then(() => {
       yup.setLocale({
         mixed: {
-          required: () => ({ key: 'errors.emptyInput' }),
-          notOneOf: () => ({ key: 'dublUrl' }),
+          required: () => ({ key: 'feedbackEmpty' }),
+          notOneOf: () => ({ key: 'feedbackRepeat' }),
         },
         string: {
-          url: () => ({ key: 'errors.invalidUrl' }),
+          url: () => ({ key: 'feedbackWrongURL' }),
         },
       });
     })

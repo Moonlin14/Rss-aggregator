@@ -23,7 +23,7 @@ const errorLoad = (elements, i18n, state) => {
       feedback.textContent = i18n.t('feedbacks.feedbackNoRSS');
     } else {
       const anotherError = state.process.processError;
-      feedback.textContent = i18n.t(anotherError.key);
+      feedback.textContent = i18n.t(`feedbacks.${anotherError.key}`);
     }
   } else {
     feedback.classList.remove('text-danger');
