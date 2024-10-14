@@ -17,7 +17,7 @@ const errorLoad = (elements, i18n, state) => {
     feedback.classList.remove('text-success');
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
-    if (state.process.processError === 'Network Erorr') {
+    if (state.process.processError === 'Network Error') {
       feedback.textContent = i18n.t('errors.network');
     } else if (state.process.processError === 'noRSS') {
       feedback.textContent = i18n.t('feedbacks.feedbackNoRSS');
@@ -80,7 +80,7 @@ const buildContainer = (title, elements, i18n, state) => {
       const listGroupItem = document.createElement('li');
       listGroupItem.classList.add('list-group-item', 'border-0', 'border-end-0');
       const h3 = document.createElement('h3');
-      h3.classList.add('h-6', 'm-0');
+      h3.classList.add('h6', 'm-0');
       h3.textContent = feed.feedTitle;
       const p = document.createElement('p');
       p.classList.add('m-0', 'small', 'text-black-50');

@@ -150,16 +150,16 @@ export default () => {
         watchedState.process.processState = 'loaded';
         watchedState.rssFrom.inputURL = '';
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
         watchedState.process.processState = 'error';
         watchedState.rssFrom.valid = false;
-        if (axios.isAxiosError(err)) {
+        if (error.isAxiosError) {
           watchedState.process.processError = 'Network Error';
-        } else if (err.name === 'parsingError') {
+        } else if (error.name === 'parsingError') {
           watchedState.process.processError = 'noRSS';
         } else {
-          watchedState.process.processError = err.message;
+          watchedState.process.processError = error.message;
         }
       });
   });
