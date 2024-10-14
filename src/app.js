@@ -154,7 +154,7 @@ export default () => {
         console.log(err);
         watchedState.process.processState = 'error';
         watchedState.rssFrom.valid = false;
-        if (err.isAxiosError) {
+        if (axios.isAxiosError(err)) {
           watchedState.process.processError = 'Network Error';
         } else if (err.name === 'parsingError') {
           watchedState.process.processError = 'noRSS';
