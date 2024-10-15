@@ -63,10 +63,21 @@ const loadNewPosts = (state) => {
       });
     })
     .catch((err) => {
-      throw err;
+      console.log(err);
     }));
   Promise.all(promise)
     .finally(() => setTimeout(loadNewPosts, delay, state));
+};
+
+const typeError = (error) => {
+  switch (error) {
+    case 'AxiosError':
+      return 'Network Error';
+    case 'parsingError':
+      return 'noRSS';
+    default:
+      return error.message;
+  }
 };
 
 export default () => {
@@ -137,10 +148,7 @@ export default () => {
         return getAxiosRespones(validUrl);
       })
       .then((response) => {
-        const extractedData = response.data.contents;
-        return parse(extractedData);
-      })
-      .then((parsedRss) => {
+        const parsedRss = parse(response.data.contents);
         const feedId = createId();
         const title = parsedRss.feed.channelTitle;
         const description = parsedRss.feed.channelDescription;
@@ -154,13 +162,7 @@ export default () => {
         console.log(error);
         watchedState.process.processState = 'error';
         watchedState.rssFrom.valid = false;
-        if (error.isAxiosError) {
-          watchedState.process.processError = 'Network Error';
-        } else if (error.name === 'parsingError') {
-          watchedState.process.processError = 'noRSS';
-        } else {
-          watchedState.process.processError = error.message;
-        }
+        watchedState.process.processError = typeError(error);
       });
   });
 
