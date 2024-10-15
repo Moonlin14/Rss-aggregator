@@ -70,7 +70,7 @@ const loadNewPosts = (state) => {
 };
 
 const typeError = (error) => {
-  switch (error) {
+  switch (error.name) {
     case 'AxiosError':
       return 'Network Error';
     case 'parsingError':
