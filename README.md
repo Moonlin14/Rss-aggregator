@@ -20,4 +20,4 @@ make develop
 ```
 
 # Ссылка на приложение
-<https://frontend-project-11-i1ja.onrender.com>
+<https://frontend-project-11-b9zj.onrender.com>
