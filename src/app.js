@@ -128,59 +128,59 @@ export default () => {
           url: () => ({ key: 'feedbackWrongURL' }),
         },
       });
+
+      const watchedState = view(elements, i18n, state);
+
+      elements.form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = formData.get('url');
+        watchedState.rssFrom.inputURL = data;
+
+        const loadedRss = watchedState.feeds.map((feed) => feed.link);
+
+        validatorUrl(watchedState.rssFrom.inputURL, loadedRss)
+          .then((validUrl) => {
+            watchedState.rssFrom.valid = true;
+            watchedState.process.processState = 'request';
+            return getAxiosRespones(validUrl);
+          })
+          .then((response) => {
+            const parsedRss = parse(response.data.contents);
+            const feedId = createId();
+            const title = parsedRss.feed.channelTitle;
+            const description = parsedRss.feed.channelDescription;
+            addFeeds(watchedState, feedId, title, description);
+            addPosts(watchedState, feedId, parsedRss.posts);
+
+            watchedState.process.processState = 'loaded';
+            watchedState.rssFrom.inputURL = '';
+          })
+          .catch((error) => {
+            console.log(error);
+            watchedState.process.processState = 'error';
+            watchedState.rssFrom.valid = false;
+            watchedState.process.processError = typeError(error);
+          });
+      });
+
+      elements.posts.addEventListener('click', (e) => {
+        const targetPost = e.target;
+        const targetPostId = targetPost.dataset.id;
+        watchedState.uiState.visitedLinks.add(targetPostId);
+        if (targetPost.tagName === 'BUTTON') {
+          watchedState.uiState.modalId = targetPostId;
+        }
+      });
+
+      loadNewPosts(watchedState);
+
+      const postClosingBtns = document.querySelectorAll('button[data-bs-dismiss="modal"]');
+      postClosingBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          watchedState.uiState.modalId = '';
+        });
+      });
     })
     .catch(() => console.log('i18next instance caused an error'));
-
-  const watchedState = view(elements, i18n, state);
-
-  elements.form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = formData.get('url');
-    watchedState.rssFrom.inputURL = data;
-
-    const loadedRss = watchedState.feeds.map((feed) => feed.link);
-
-    validatorUrl(watchedState.rssFrom.inputURL, loadedRss)
-      .then((validUrl) => {
-        watchedState.rssFrom.valid = true;
-        watchedState.process.processState = 'request';
-        return getAxiosRespones(validUrl);
-      })
-      .then((response) => {
-        const parsedRss = parse(response.data.contents);
-        const feedId = createId();
-        const title = parsedRss.feed.channelTitle;
-        const description = parsedRss.feed.channelDescription;
-        addFeeds(watchedState, feedId, title, description);
-        addPosts(watchedState, feedId, parsedRss.posts);
-
-        watchedState.process.processState = 'loaded';
-        watchedState.rssFrom.inputURL = '';
-      })
-      .catch((error) => {
-        console.log(error);
-        watchedState.process.processState = 'error';
-        watchedState.rssFrom.valid = false;
-        watchedState.process.processError = typeError(error);
-      });
-  });
-
-  elements.posts.addEventListener('click', (e) => {
-    const targetPost = e.target;
-    const targetPostId = targetPost.dataset.id;
-    watchedState.uiState.visitedLinks.add(targetPostId);
-    if (targetPost.tagName === 'BUTTON') {
-      watchedState.uiState.modalId = targetPostId;
-    }
-  });
-
-  loadNewPosts(watchedState);
-
-  const postClosingBtns = document.querySelectorAll('button[data-bs-dismiss="modal"]');
-  postClosingBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      watchedState.uiState.modalId = '';
-    });
-  });
 };
