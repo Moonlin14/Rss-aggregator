@@ -8,7 +8,7 @@ RSS-агрегатор - это приложение, собирающее и о
 # Установка
 Копируем проект с GitHub
 ```
-git clone git@github.com:Moonlin14/frontend-project-44.git
+git clone git@github.com:Moonlin14/Rss-aggregator-44.git
 ```
 Устанавливаем
 ```
